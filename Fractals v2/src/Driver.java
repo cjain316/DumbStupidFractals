@@ -19,6 +19,9 @@ public class Driver extends JPanel implements ActionListener {
 		clover(g,100,50,50);
 		sundayDavid(g,360,100,300,100);
 		squares(g,500,50,200);
+		snowflake(g,200,400,100,6);
+		triangle(g,400,600,300);
+		
 
 	}// end of paint method - put code above for anything dealing with drawing -
 
@@ -36,6 +39,16 @@ public class Driver extends JPanel implements ActionListener {
 
 	}
 	
+	public void triangle(Graphics g,double x, double y, double size) {
+		if (size< 1) return;
+		g.drawLine((int) x, (int) y, (int)(x+size), (int) y);
+		g.drawLine((int) x, (int) y, (int)(x+size/2), (int) (y-size/2*1.732));
+		g.drawLine((int)(x), (int)(y), (int)(x+size/2), (int)(y-size/2*1.732));
+		triangle(g,x,y,size/2);
+		triangle(g,(int)(x+size/4),(int)(y-size/4*1.732),size/2);
+		triangle(g,x+size/2,y,size/2);
+	}
+	
 	public void sundayDavid(Graphics g, int n,int radius, int px, int py) {
 		x = (int) (Math.cos(Math.toRadians(n-10))*((radius)/2));
 		y = (int) (Math.sin(Math.toRadians(n-10))*((radius)/2));
@@ -45,6 +58,21 @@ public class Driver extends JPanel implements ActionListener {
 		
 		if (n > 0) {
 			sundayDavid(g,n-(10),radius,px,py);
+		}
+	}
+	
+	public void snowflake(Graphics g, int x, int y, int spokes, int b) {
+		if (spokes<=1) {
+			return;
+		}
+		double theta = 0;
+		for (int i = 0; i < b; i++) {
+			int x1 = (int)(spokes*Math.cos(Math.toRadians(theta)));
+			int y1 = (int)(spokes*Math.sin(Math.toRadians(theta)));
+			g.drawLine(x, y, x+x1, y-y1);
+			snowflake(g,x+x1,y+y1,spokes/3,b);
+			theta += 360.0/b;
+			
 		}
 	}
 
@@ -102,7 +130,7 @@ public class Driver extends JPanel implements ActionListener {
 	public Driver() {
 
 		JFrame f = new JFrame();
-		f.setTitle("Pong");
+		f.setTitle("MR DAVID ITS NOT PONG");
 		f.setSize(w, h);
 		f.setBackground(Color.BLACK);
 		f.setResizable(false);
